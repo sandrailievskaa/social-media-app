@@ -55,21 +55,24 @@ new class extends Component
 @php($title = 'Create post')
 <div class="py-8">
     <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between">
-            <h1 class="text-xl font-semibold text-gray-900">Create post</h1>
-            <a href="{{ route('feed.index') }}" class="text-sm font-medium text-gray-700 hover:text-gray-900">
-                Back to feed
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+                <h1 class="text-xl font-semibold text-gray-900">Create post</h1>
+                <p class="mt-1 text-sm text-gray-600">Share something with your followers.</p>
+            </div>
+            <a href="{{ route('feed.index') }}" class="inline-flex items-center rounded-lg bg-gray-100 px-3 py-2 text-sm font-semibold text-gray-800 transition-all duration-200 hover:bg-gray-200 active:scale-95">
+                Back
             </a>
         </div>
 
-        <form wire:submit.prevent="submit" class="mt-6 space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        <form wire:submit.prevent="submit" class="mt-6 space-y-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
             <div>
                 <label for="body" class="block text-sm font-medium text-gray-700">Body</label>
                 <textarea
                     id="body"
                     wire:model.defer="body"
                     rows="4"
-                    class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900"
+                    class="mt-1 w-full rounded-lg border-gray-300 text-sm shadow-sm transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400"
                     placeholder="What’s happening?"
                 ></textarea>
                 @error('body') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
@@ -89,24 +92,27 @@ new class extends Component
                 x-on:livewire-upload-finish.window="$nextTick(() => setPreviews($refs.files.files))"
             >
                 <label class="block text-sm font-medium text-gray-700">Media</label>
-                <input
-                    x-ref="files"
-                    type="file"
-                    multiple
-                    wire:model="mediaFiles"
-                    class="mt-1 block w-full text-sm text-gray-700 file:mr-4 file:rounded-md file:border-0 file:bg-gray-900 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-gray-800"
-                    x-on:change="setPreviews($event.target.files)"
-                />
+                <div class="mt-2 rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-4 transition-all duration-200 hover:border-indigo-300 hover:bg-indigo-50/40">
+                    <input
+                        x-ref="files"
+                        type="file"
+                        multiple
+                        wire:model="mediaFiles"
+                        class="block w-full text-sm text-gray-700 file:mr-4 file:rounded-lg file:border-0 file:bg-indigo-500 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-indigo-600"
+                        x-on:change="setPreviews($event.target.files)"
+                    />
+                    <p class="mt-2 text-xs text-gray-500">JPG/PNG/WEBP up to 5MB each · MP4/WEBM up to 50MB.</p>
+                </div>
                 @error('mediaFiles.*') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
 
-                <div class="mt-3 grid grid-cols-3 gap-2" x-show="previews.length" x-cloak>
+                <div class="mt-4 grid grid-cols-3 gap-3" x-show="previews.length" x-cloak>
                     <template x-for="p in previews" :key="p.url">
-                        <div class="rounded-lg border border-gray-200 bg-gray-50 p-2">
+                        <div class="rounded-2xl border border-gray-200 bg-white p-2 shadow-sm">
                             <template x-if="p.type.startsWith('image/')">
-                                <img :src="p.url" alt="" class="h-24 w-full rounded object-cover" />
+                                <img :src="p.url" alt="" class="h-24 w-full rounded-xl object-cover" />
                             </template>
                             <template x-if="p.type.startsWith('video/')">
-                                <div class="flex h-24 items-center justify-center rounded bg-black text-xs font-medium text-white">
+                                <div class="flex h-24 items-center justify-center rounded-xl bg-black text-xs font-semibold text-white">
                                     Video
                                 </div>
                             </template>
@@ -120,7 +126,7 @@ new class extends Component
                 <button
                     type="submit"
                     wire:loading.attr="disabled"
-                    class="inline-flex items-center rounded-md bg-gray-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 disabled:opacity-50"
+                    class="inline-flex items-center rounded-lg bg-indigo-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-600 disabled:opacity-50 active:scale-95"
                 >
                     Publish
                 </button>

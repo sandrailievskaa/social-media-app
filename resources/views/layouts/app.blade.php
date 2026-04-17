@@ -16,8 +16,8 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+    <body class="font-sans antialiased text-gray-900">
+        <div class="min-h-screen bg-gray-50">
             @include('layouts.navigation')
 
             <div
@@ -41,7 +41,7 @@
                     x-show="show"
                     x-cloak
                     x-transition
-                    class="pointer-events-auto rounded-lg bg-gray-900 px-4 py-3 text-sm font-medium text-white shadow-lg"
+                    class="pointer-events-auto flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-900 shadow-sm ring-1 ring-indigo-500/10"
                     x-text="message"
                 ></div>
             </div>

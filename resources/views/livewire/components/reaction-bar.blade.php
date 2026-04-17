@@ -20,8 +20,8 @@
         <button
             type="button"
             wire:click="toggleReaction('{{ $type }}')"
-            class="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm transition
-                {{ $active === $type ? 'border-gray-900 bg-gray-900 text-white' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50' }}"
+            class="inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-semibold transition-all duration-200 active:scale-95
+                {{ $active === $type ? 'border-indigo-200 bg-indigo-50 text-indigo-700' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-100' }}"
         >
             <span aria-hidden="true">{{ $emoji }}</span>
             <span class="tabular-nums">{{ $count }}</span>

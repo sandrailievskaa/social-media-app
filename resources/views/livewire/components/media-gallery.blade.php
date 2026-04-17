@@ -22,7 +22,7 @@
 >
     @if ($videos->isNotEmpty())
         @foreach ($videos as $video)
-            <video controls class="w-full rounded-lg bg-black">
+            <video controls class="w-full rounded-xl bg-black shadow-sm">
                 <source src="{{ $video->file_url }}" />
             </video>
         @endforeach
@@ -37,13 +37,13 @@
 
         @if ($count === 1)
             <button type="button" class="block w-full" @click="show('{{ $visible[0]->file_url }}')">
-                <img src="{{ $visible[0]->file_url }}" alt="" class="w-full rounded-lg object-cover" loading="lazy" />
+                <img src="{{ $visible[0]->file_url }}" alt="" class="w-full rounded-xl object-cover shadow-sm" loading="lazy" />
             </button>
         @elseif ($count === 2)
             <div class="grid grid-cols-2 gap-2">
                 @foreach ($visible as $img)
                     <button type="button" class="block" @click="show('{{ $img->file_url }}')">
-                        <img src="{{ $img->file_url }}" alt="" class="aspect-[4/3] w-full rounded-lg object-cover" loading="lazy" />
+                        <img src="{{ $img->file_url }}" alt="" class="aspect-[4/3] w-full rounded-xl object-cover shadow-sm" loading="lazy" />
                     </button>
                 @endforeach
             </div>
@@ -51,10 +51,10 @@
             <div class="grid grid-cols-2 gap-2">
                 @foreach ($visible as $idx => $img)
                     <button type="button" class="relative block" @click="show('{{ $img->file_url }}')">
-                        <img src="{{ $img->file_url }}" alt="" class="aspect-[4/3] w-full rounded-lg object-cover" loading="lazy" />
+                        <img src="{{ $img->file_url }}" alt="" class="aspect-[4/3] w-full rounded-xl object-cover shadow-sm" loading="lazy" />
 
                         @if ($idx === 3 && $extra > 0)
-                            <div class="absolute inset-0 flex items-center justify-center rounded-lg bg-black/60 text-sm font-semibold text-white">
+                            <div class="absolute inset-0 flex items-center justify-center rounded-xl bg-black/60 text-sm font-semibold text-white">
                                 +{{ $extra }} more
                             </div>
                         @endif
@@ -73,10 +73,10 @@
         <button type="button" class="absolute inset-0" @click="close()"></button>
 
         <div class="relative z-10 max-w-4xl">
-            <button type="button" class="absolute -right-2 -top-10 text-sm font-medium text-white/90 hover:text-white" @click="close()">
+            <button type="button" class="absolute -right-2 -top-10 rounded-lg bg-white/10 px-3 py-1.5 text-sm font-semibold text-white/90 backdrop-blur transition-all duration-200 hover:bg-white/20 hover:text-white active:scale-95" @click="close()">
                 Close
             </button>
-            <img :src="src" alt="" class="max-h-[80vh] w-auto rounded-lg shadow-2xl" />
+            <img :src="src" alt="" class="max-h-[80vh] w-auto rounded-2xl shadow-2xl" />
         </div>
     </div>
 </div>

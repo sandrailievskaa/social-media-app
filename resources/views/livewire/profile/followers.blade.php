@@ -90,19 +90,19 @@ new class extends Component
 @php($title = $profileUser->name.' · Followers')
 <div class="py-8">
     <div class="mx-auto max-w-2xl space-y-6 px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-wrap items-center justify-between gap-3">
             <div>
                 <h1 class="text-xl font-semibold text-gray-900">Followers</h1>
                 <p class="mt-1 text-sm text-gray-600">{{ $profileUser->name }}</p>
             </div>
-            <a href="{{ route('profile.show', $profileUser) }}" class="text-sm font-medium text-gray-700 hover:text-gray-900">
+            <a href="{{ route('profile.show', $profileUser) }}" class="inline-flex items-center rounded-lg bg-gray-100 px-3 py-2 text-sm font-semibold text-gray-800 transition-all duration-200 hover:bg-gray-200 active:scale-95">
                 Back
             </a>
         </div>
 
         <div class="space-y-3">
             @forelse ($followers as $u)
-                <div class="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4">
+                <div class="flex items-center justify-between rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition-all duration-200 hover:shadow-md">
                     <a href="{{ route('profile.show', $u) }}" class="flex min-w-0 items-center gap-3">
                         @php($avatar = $u->profile?->avatar_url)
                         <img
@@ -123,21 +123,21 @@ new class extends Component
                                 type="button"
                                 wire:click="toggleFollow('{{ $u->id }}')"
                                 wire:loading.attr="disabled"
-                                class="inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm disabled:opacity-50
-                                    {{ ($followingMap[$u->id] ?? false) ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-900 hover:bg-gray-800' }}"
+                                class="inline-flex items-center rounded-lg px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 disabled:opacity-50 active:scale-95
+                                    {{ ($followingMap[$u->id] ?? false) ? 'bg-emerald-500 hover:bg-emerald-600' : 'bg-indigo-500 hover:bg-indigo-600' }}"
                             >
                                 {{ ($followingMap[$u->id] ?? false) ? 'Following' : 'Follow' }}
                             </button>
                         @endif
                     @else
                         <a href="{{ route('login') }}"
-                           class="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50">
+                           class="inline-flex items-center rounded-lg bg-gray-100 px-3 py-2 text-sm font-semibold text-gray-800 transition-all duration-200 hover:bg-gray-200 active:scale-95">
                             Log in
                         </a>
                     @endauth
                 </div>
             @empty
-                <div class="rounded-lg border border-dashed border-gray-300 bg-white p-8 text-center text-sm text-gray-600">
+                <div class="rounded-2xl border border-dashed border-gray-300 bg-white p-8 text-center text-sm text-gray-600 shadow-sm">
                     No followers yet.
                 </div>
             @endforelse

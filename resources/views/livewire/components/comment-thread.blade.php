@@ -28,13 +28,13 @@
     <div class="space-y-4">
         @forelse ($topLevel as $comment)
             @php($avatar = $comment->author?->profile?->avatar_url)
-            <div class="rounded-lg border border-gray-200 bg-white p-4">
+            <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition-all duration-200">
                 <div class="flex items-start justify-between gap-3">
                     <div class="flex items-start gap-3">
                         <img
                             src="{{ $avatar ?: 'https://i.pravatar.cc/150?u='.urlencode($comment->author->email) }}"
                             alt="{{ $comment->author->name }}"
-                            class="h-9 w-9 rounded-full object-cover"
+                            class="h-8 w-8 rounded-full object-cover"
                             loading="lazy"
                         />
 
@@ -49,23 +49,23 @@
                                     <textarea
                                         wire:model.defer="editing.{{ $comment->id }}"
                                         rows="3"
-                                        class="w-full rounded-md border-gray-300 text-sm shadow-sm focus:border-gray-900 focus:ring-gray-900"
+                                        class="w-full rounded-lg border-gray-300 text-sm shadow-sm transition-all duration-200 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400"
                                     ></textarea>
                                     @error("editing.$comment->id") <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
 
                                     <div class="mt-2 flex items-center gap-2">
                                         <button type="button" wire:click="saveEdit('{{ $comment->id }}')"
-                                                class="rounded-md bg-gray-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-gray-800">
+                                                class="rounded-lg bg-indigo-500 px-3 py-1.5 text-xs font-semibold text-white transition-all duration-200 hover:bg-indigo-600 active:scale-95">
                                             Save
                                         </button>
                                         <button type="button" wire:click="cancelEdit('{{ $comment->id }}')"
-                                                class="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50">
+                                                class="rounded-lg bg-gray-100 px-3 py-1.5 text-xs font-semibold text-gray-800 transition-all duration-200 hover:bg-gray-200 active:scale-95">
                                             Cancel
                                         </button>
                                     </div>
                                 </div>
                             @else
-                                <p class="mt-2 whitespace-pre-wrap text-sm text-gray-900">{{ $comment->body }}</p>
+                                <p class="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-gray-900">{{ $comment->body }}</p>
                             @endif
 
                             @php($counts = $reactionCountsFor($comment))
@@ -76,8 +76,8 @@
                                     <button
                                         type="button"
                                         wire:click="toggleCommentReaction('{{ $comment->id }}', '{{ $type }}')"
-                                        class="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs transition
-                                            {{ $active === $type ? 'border-gray-900 bg-gray-900 text-white' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50' }}"
+                                        class="inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all duration-200 active:scale-95
+                                            {{ $active === $type ? 'border-indigo-200 bg-indigo-50 text-indigo-700' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-100' }}"
                                     >
                                         <span aria-hidden="true">{{ $emoji }}</span>
                                         <span class="tabular-nums">{{ $count }}</span>
@@ -86,17 +86,17 @@
                             </div>
 
                             <div class="mt-3 flex items-center gap-3 text-xs font-medium text-gray-600">
-                                <button type="button" wire:click="startReply('{{ $comment->id }}')" class="hover:text-gray-900">
+                                <button type="button" wire:click="startReply('{{ $comment->id }}')" class="rounded-md px-2 py-1 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 active:scale-95">
                                     Reply
                                 </button>
 
                                 @if ($comment->user_id === auth()->id())
-                                    <button type="button" wire:click="startEdit('{{ $comment->id }}')" class="hover:text-gray-900">
+                                    <button type="button" wire:click="startEdit('{{ $comment->id }}')" class="rounded-md px-2 py-1 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 active:scale-95">
                                         Edit
                                     </button>
                                     <button type="button"
                                             x-on:click="if (confirm('Delete this comment?')) { $wire.deleteComment('{{ $comment->id }}') }"
-                                            class="text-red-600 hover:text-red-700">
+                                            class="rounded-md px-2 py-1 text-red-600 transition-all duration-200 hover:bg-red-50 hover:text-red-700 active:scale-95">
                                         Delete
                                     </button>
                                 @endif
@@ -104,10 +104,10 @@
 
                             @php($replies = ($repliesByParent[$comment->id] ?? collect())->sortBy('created_at')->values())
                             @if ($replies->isNotEmpty())
-                                <div class="mt-4 space-y-3 border-l border-gray-200 pl-4">
+                                <div class="mt-4 space-y-3 border-l-2 border-gray-200 pl-4">
                                     @foreach ($replies as $reply)
                                         @php($replyAvatar = $reply->author?->profile?->avatar_url)
-                                        <div class="rounded-lg border border-gray-100 bg-gray-50 p-3">
+                                        <div class="rounded-2xl border border-gray-200 bg-gray-50 p-3">
                                             <div class="flex items-start gap-3">
                                                 <img
                                                     src="{{ $replyAvatar ?: 'https://i.pravatar.cc/150?u='.urlencode($reply->author->email) }}"
@@ -130,8 +130,8 @@
                                                             <button
                                                                 type="button"
                                                                 wire:click="toggleCommentReaction('{{ $reply->id }}', '{{ $type }}')"
-                                                                class="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs transition
-                                                                    {{ $replyActive === $type ? 'border-gray-900 bg-gray-900 text-white' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50' }}"
+                                                                class="inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all duration-200 active:scale-95
+                                                                    {{ $replyActive === $type ? 'border-indigo-200 bg-indigo-50 text-indigo-700' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-100' }}"
                                                             >
                                                                 <span aria-hidden="true">{{ $emoji }}</span>
                                                                 <span class="tabular-nums">{{ $count }}</span>
@@ -143,7 +143,7 @@
                                                         <div class="mt-2 flex items-center gap-3 text-xs font-medium text-gray-600">
                                                             <button type="button"
                                                                     x-on:click="if (confirm('Delete this comment?')) { $wire.deleteComment('{{ $reply->id }}') }"
-                                                                    class="text-red-600 hover:text-red-700">
+                                                                    class="rounded-md px-2 py-1 text-red-600 transition-all duration-200 hover:bg-red-50 hover:text-red-700 active:scale-95">
                                                                 Delete
                                                             </button>
                                                         </div>
@@ -156,7 +156,7 @@
                             @endif
 
                             @if ($this->parentCommentId === $comment->id)
-                                <div class="mt-4 rounded-lg border border-gray-200 bg-white p-3">
+                                <div class="mt-4 rounded-2xl border border-gray-200 bg-white p-3 shadow-sm">
                                     <div class="flex items-center justify-between">
                                         <div class="text-xs font-semibold text-gray-700">Reply</div>
                                         <button type="button" wire:click="cancelReply" class="text-xs text-gray-600 hover:text-gray-900">
@@ -166,13 +166,14 @@
                                     <textarea
                                         wire:model.defer="body"
                                         rows="3"
-                                        class="mt-2 w-full rounded-md border-gray-300 text-sm shadow-sm focus:border-gray-900 focus:ring-gray-900"
+                                        x-on:keydown.enter="if (! $event.shiftKey) { $event.preventDefault(); $wire.addComment(); }"
+                                        class="mt-2 w-full rounded-lg border-gray-300 text-sm shadow-sm transition-all duration-200 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400"
                                         placeholder="Write a reply…"
                                     ></textarea>
                                     @error('body') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                                     <div class="mt-2">
                                         <button type="button" wire:click="addComment"
-                                                class="rounded-md bg-gray-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-gray-800">
+                                                class="rounded-lg bg-indigo-500 px-3 py-1.5 text-xs font-semibold text-white transition-all duration-200 hover:bg-indigo-600 active:scale-95">
                                             Reply
                                         </button>
                                     </div>
@@ -183,25 +184,30 @@
                 </div>
             </div>
         @empty
-            <div class="rounded-lg border border-dashed border-gray-300 bg-white p-6 text-center text-sm text-gray-600">
+            <div class="rounded-2xl border border-dashed border-gray-300 bg-white p-6 text-center text-sm text-gray-600 shadow-sm">
                 Be the first to comment.
             </div>
         @endforelse
     </div>
 
     @if ($this->parentCommentId === null)
-        <div class="rounded-lg border border-gray-200 bg-white p-4">
-            <h3 class="text-sm font-semibold text-gray-900">Add a comment</h3>
+        <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+            <div class="flex items-center justify-between gap-3">
+                <h3 class="text-sm font-semibold text-gray-900">Add a comment</h3>
+                <div wire:loading class="text-xs font-medium text-gray-500">Posting…</div>
+            </div>
             <textarea
                 wire:model.defer="body"
                 rows="4"
-                class="mt-2 w-full rounded-md border-gray-300 text-sm shadow-sm focus:border-gray-900 focus:ring-gray-900"
+                x-on:keydown.enter="if (! $event.shiftKey) { $event.preventDefault(); $wire.addComment(); }"
+                class="mt-2 w-full rounded-lg border-gray-300 text-sm shadow-sm transition-all duration-200 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400"
                 placeholder="Write a comment…"
             ></textarea>
             @error('body') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-            <div class="mt-3 flex items-center gap-3">
+            <div class="mt-3 flex flex-wrap items-center gap-3">
                 <button type="button" wire:click="addComment"
-                        class="rounded-md bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-800">
+                        wire:loading.attr="disabled"
+                        class="rounded-lg bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:bg-indigo-600 disabled:opacity-50 active:scale-95">
                     Post comment
                 </button>
             </div>

@@ -1,7 +1,7 @@
 @props(['post'])
 
-<article class="rounded-lg border border-gray-200 bg-white shadow-sm">
-    <div class="p-4">
+<article class="rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:shadow-md">
+    <div class="p-4 sm:p-6">
         <div class="flex items-start justify-between gap-4">
             <a href="{{ route('profile.show', $post->author) }}" class="flex items-center gap-3">
                 @php($avatar = $post->author?->profile?->avatar_url)
@@ -25,14 +25,14 @@
             @if (auth()->id() === $post->user_id)
                 <button type="button"
                         x-on:click="if (confirm('Delete this post?')) { $wire.deletePost() }"
-                        class="text-xs font-medium text-red-600 hover:text-red-700">
+                        class="rounded-lg bg-gray-100 px-3 py-1.5 text-xs font-semibold text-red-600 transition-all duration-200 hover:bg-gray-200 active:scale-95">
                     Delete
                 </button>
             @endif
         </div>
 
         @if (! blank($post->body))
-            <div class="mt-3 whitespace-pre-wrap text-sm leading-6 text-gray-900">
+            <div class="mt-4 whitespace-pre-wrap text-base leading-relaxed text-gray-900">
                 {{ $post->body }}
             </div>
         @endif
@@ -41,16 +41,20 @@
             @include('livewire.components.media-gallery', ['media' => $post->media])
         </div>
 
-        <div class="mt-4">
+        <div class="mt-4 border-t border-gray-100 pt-4">
             @include('livewire.components.reaction-bar', [
                 'counts' => $this->reactionCounts,
                 'active' => $this->userReaction,
             ])
         </div>
 
-        <div class="mt-3 flex items-center justify-between text-sm text-gray-600">
-            <a href="{{ route('posts.show', $post) }}" class="hover:text-gray-900">
+        <div class="mt-4 flex items-center justify-between text-sm text-gray-600">
+            <a href="{{ route('posts.show', $post) }}" class="font-medium hover:text-gray-900">
                 {{ $post->comments()->count() }} comments
+            </a>
+
+            <a href="{{ route('posts.show', $post) }}" class="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
+                View
             </a>
         </div>
     </div>

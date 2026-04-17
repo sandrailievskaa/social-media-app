@@ -57,12 +57,12 @@ new class extends Component
 <div class="py-8">
     <div class="mx-auto max-w-2xl space-y-6 px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between">
-            <a href="{{ route('feed.index') }}" class="text-sm font-medium text-gray-700 hover:text-gray-900">
-                Back to feed
+            <a href="{{ route('feed.index') }}" class="inline-flex items-center rounded-lg bg-gray-100 px-3 py-2 text-sm font-semibold text-gray-800 transition-all duration-200 hover:bg-gray-200 active:scale-95">
+                Back
             </a>
         </div>
 
-        <article class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        <article class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
             <div class="flex items-start gap-3">
                 <a href="{{ route('profile.show', $post->author) }}">
                     @php($avatar = $post->author?->profile?->avatar_url)
@@ -85,14 +85,14 @@ new class extends Component
                     </div>
 
                     @if (! blank($post->body))
-                        <div class="mt-3 whitespace-pre-wrap text-sm leading-6 text-gray-900">{{ $post->body }}</div>
+                        <div class="mt-4 whitespace-pre-wrap text-base leading-relaxed text-gray-900">{{ $post->body }}</div>
                     @endif
 
                     <div class="mt-4">
                         @include('livewire.components.media-gallery', ['media' => $post->media])
                     </div>
 
-                    <div class="mt-4">
+                    <div class="mt-4 border-t border-gray-100 pt-4">
                         @include('livewire.components.reaction-bar', [
                             'counts' => $reactionCounts,
                             'active' => $userReaction,
@@ -103,7 +103,7 @@ new class extends Component
         </article>
 
         <div>
-            <h2 class="text-sm font-semibold text-gray-900">Comments</h2>
+            <h2 class="text-lg font-medium text-gray-900">Comments</h2>
             <div class="mt-3">
                 <livewire:components.comment-thread :post="$post" />
             </div>
