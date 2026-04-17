@@ -3,8 +3,8 @@
 <article class="rounded-lg border border-gray-200 bg-white shadow-sm">
     <div class="p-4">
         <div class="flex items-start justify-between gap-4">
-            <div class="flex items-center gap-3">
-                @php($avatar = $post->author?->profile?->avatar_path)
+            <a href="{{ route('profile.show', $post->author) }}" class="flex items-center gap-3">
+                @php($avatar = $post->author?->profile?->avatar_url)
                 <img
                     src="{{ $avatar ?: 'https://i.pravatar.cc/150?u='.urlencode($post->author->email) }}"
                     alt="{{ $post->author->name }}"
@@ -13,14 +13,14 @@
                 />
 
                 <div>
-                    <div class="text-sm font-semibold text-gray-900">
+                    <div class="text-sm font-semibold text-gray-900 hover:underline">
                         {{ $post->author->name }}
                     </div>
                     <div class="text-xs text-gray-500">
                         {{ $post->created_at->diffForHumans() }}
                     </div>
                 </div>
-            </div>
+            </a>
 
             @if (auth()->id() === $post->user_id)
                 <button type="button"

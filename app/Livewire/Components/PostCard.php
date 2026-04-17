@@ -55,9 +55,11 @@ class PostCard extends Component
             ->map(fn ($count) => (int) $count)
             ->toArray();
 
-        $this->userReaction = $this->post->reactions()
+        $reaction = $this->post->reactions()
             ->where('user_id', auth()->id())
-            ->value('type');
+            ->first();
+
+        $this->userReaction = $reaction?->type?->value;
     }
 
     public function render(): View

@@ -57,4 +57,19 @@ class PostMedia extends Model
     {
         return $this->belongsTo(Post::class);
     }
+
+    public function getFileUrlAttribute(): string
+    {
+        $path = (string) $this->getRawOriginal('file_path');
+
+        if ($path === '') {
+            return '';
+        }
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        return Storage::disk('public')->url($path);
+    }
 }

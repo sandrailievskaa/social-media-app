@@ -23,7 +23,7 @@
     @if ($videos->isNotEmpty())
         @foreach ($videos as $video)
             <video controls class="w-full rounded-lg bg-black">
-                <source src="{{ $video->file_path }}" />
+                <source src="{{ $video->file_url }}" />
             </video>
         @endforeach
     @endif
@@ -36,22 +36,22 @@
         @endphp
 
         @if ($count === 1)
-            <button type="button" class="block w-full" @click="show('{{ $visible[0]->file_path }}')">
-                <img src="{{ $visible[0]->file_path }}" alt="" class="w-full rounded-lg object-cover" loading="lazy" />
+            <button type="button" class="block w-full" @click="show('{{ $visible[0]->file_url }}')">
+                <img src="{{ $visible[0]->file_url }}" alt="" class="w-full rounded-lg object-cover" loading="lazy" />
             </button>
         @elseif ($count === 2)
             <div class="grid grid-cols-2 gap-2">
                 @foreach ($visible as $img)
-                    <button type="button" class="block" @click="show('{{ $img->file_path }}')">
-                        <img src="{{ $img->file_path }}" alt="" class="aspect-[4/3] w-full rounded-lg object-cover" loading="lazy" />
+                    <button type="button" class="block" @click="show('{{ $img->file_url }}')">
+                        <img src="{{ $img->file_url }}" alt="" class="aspect-[4/3] w-full rounded-lg object-cover" loading="lazy" />
                     </button>
                 @endforeach
             </div>
         @else
             <div class="grid grid-cols-2 gap-2">
                 @foreach ($visible as $idx => $img)
-                    <button type="button" class="relative block" @click="show('{{ $img->file_path }}')">
-                        <img src="{{ $img->file_path }}" alt="" class="aspect-[4/3] w-full rounded-lg object-cover" loading="lazy" />
+                    <button type="button" class="relative block" @click="show('{{ $img->file_url }}')">
+                        <img src="{{ $img->file_url }}" alt="" class="aspect-[4/3] w-full rounded-lg object-cover" loading="lazy" />
 
                         @if ($idx === 3 && $extra > 0)
                             <div class="absolute inset-0 flex items-center justify-center rounded-lg bg-black/60 text-sm font-semibold text-white">

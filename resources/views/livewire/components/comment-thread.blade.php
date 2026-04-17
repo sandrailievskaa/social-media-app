@@ -27,7 +27,7 @@
 <div class="space-y-6">
     <div class="space-y-4">
         @forelse ($topLevel as $comment)
-            @php($avatar = $comment->author?->profile?->avatar_path)
+            @php($avatar = $comment->author?->profile?->avatar_url)
             <div class="rounded-lg border border-gray-200 bg-white p-4">
                 <div class="flex items-start justify-between gap-3">
                     <div class="flex items-start gap-3">
@@ -106,7 +106,7 @@
                             @if ($replies->isNotEmpty())
                                 <div class="mt-4 space-y-3 border-l border-gray-200 pl-4">
                                     @foreach ($replies as $reply)
-                                        @php($replyAvatar = $reply->author?->profile?->avatar_path)
+                                        @php($replyAvatar = $reply->author?->profile?->avatar_url)
                                         <div class="rounded-lg border border-gray-100 bg-gray-50 p-3">
                                             <div class="flex items-start gap-3">
                                                 <img

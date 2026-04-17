@@ -17,7 +17,9 @@ Route::get('/dashboard', function () {
     return redirect()->route('feed.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Volt::route('/profile/{user}', 'profile.show')->name('profile.show');
+Volt::route('/profile/{user}', 'profile.show')->whereUlid('user')->name('profile.show');
+Volt::route('/profile/{user}/followers', 'profile.followers')->whereUlid('user')->name('profile.followers');
+Volt::route('/profile/{user}/following', 'profile.following')->whereUlid('user')->name('profile.following');
 
 Route::middleware('auth')->group(function () {
     Volt::route('/feed', 'feed.index')->name('feed.index');
