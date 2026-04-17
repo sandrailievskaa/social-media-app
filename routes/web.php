@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\PostStoreController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReactionController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,7 @@ Route::middleware('auth')->group(function () {
     Volt::route('/feed', 'feed.index')->name('feed.index');
 
     Volt::route('/posts/create', 'posts.create')->name('posts.create');
+    Route::post('/posts', PostStoreController::class)->name('posts.store');
     Volt::route('/posts/{post}', 'posts.show')->name('posts.show');
 
     Volt::route('/profile/{user}', 'profile.show')->name('profile.show');

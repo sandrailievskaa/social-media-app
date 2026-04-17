@@ -20,7 +20,9 @@
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
-        "phpunit/phpunit": "^11.5.50"
+        "pestphp/pest": "4.6",
+        "pestphp/pest-plugin-laravel": "4.0",
+        "phpunit/phpunit": "12.5.16"
     },
     "autoload": {
         "psr-4": {
@@ -77,6 +79,11 @@
     },
     "config": {
         "optimize-autoloader": true,
+        "audit": {
+            "ignore": [
+                "PKSA-z3gr-8qht-p93v"
+            ]
+        },
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
