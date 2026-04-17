@@ -38,6 +38,17 @@ class User extends Authenticatable
         return UserFactory::new();
     }
 
+    protected static function booted(): void
+    {
+        static::created(function (self $user): void {
+            if ($user->profile()->exists()) {
+                return;
+            }
+
+            $user->profile()->create();
+        });
+    }
+
     /**
      * @return array<string, string>
      */
