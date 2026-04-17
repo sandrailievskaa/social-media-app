@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowController;
-use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReactionController;
 use Illuminate\Support\Facades\Route;
@@ -20,11 +19,12 @@ Route::middleware('auth')->group(function () {
     Volt::route('/feed', 'feed.index')->name('feed.index');
 
     Volt::route('/posts/create', 'posts.create')->name('posts.create');
-    Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+    Volt::route('/posts/{post}', 'posts.show')->name('posts.show');
 
-    Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Volt::route('/profile/{user}', 'profile.show')->name('profile.show');
+
+    Route::get('/profile', [ProfileController::class, 'edit']);
+    Volt::route('/profile/edit', 'profile.edit')->name('profile.edit');
 
     Route::post('/reactions', ReactionController::class)->name('reactions.store');
     Route::post('/follows', FollowController::class)->name('follows.store');
