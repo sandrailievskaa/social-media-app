@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\PostDestroyController;
 use App\Http\Controllers\PostStoreController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReactionController;
@@ -16,14 +17,16 @@ Route::get('/dashboard', function () {
     return redirect()->route('feed.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Volt::route('/profile/{user}', 'profile.show')->name('profile.show');
+
 Route::middleware('auth')->group(function () {
     Volt::route('/feed', 'feed.index')->name('feed.index');
 
     Volt::route('/posts/create', 'posts.create')->name('posts.create');
     Route::post('/posts', PostStoreController::class)->name('posts.store');
     Volt::route('/posts/{post}', 'posts.show')->name('posts.show');
-
-    Volt::route('/profile/{user}', 'profile.show')->name('profile.show');
+    Volt::route('/posts/{post}/edit', 'posts.edit')->name('posts.edit');
+    Route::delete('/posts/{post}', PostDestroyController::class)->name('posts.destroy');
 
     Route::get('/profile', [ProfileController::class, 'edit']);
     Volt::route('/profile/edit', 'profile.edit')->name('profile.edit');
@@ -33,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/comments', CommentController::class)->name('comments.store');
 
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.put');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 

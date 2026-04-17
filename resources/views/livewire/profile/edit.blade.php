@@ -45,7 +45,7 @@ new class extends Component
 
         app(UpdateProfileAction::class)->execute(auth()->user(), $dto);
 
-        session()->flash('status', 'Profile updated.');
+        session()->flash('toast', 'Profile updated.');
 
         return redirect()->route('profile.show', auth()->user());
     }
@@ -54,6 +54,7 @@ new class extends Component
 ?>
 
 <x-app-layout>
+    @php($title = 'Edit profile')
     <div class="py-8">
         <div class="mx-auto max-w-2xl space-y-6 px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between">
@@ -62,12 +63,6 @@ new class extends Component
                     Back
                 </a>
             </div>
-
-            @if (session('status'))
-                <div class="rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-800">
-                    {{ session('status') }}
-                </div>
-            @endif
 
             <form wire:submit.prevent="save" class="space-y-6 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
                 <div class="grid gap-4">

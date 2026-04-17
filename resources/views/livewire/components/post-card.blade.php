@@ -23,7 +23,9 @@
             </div>
 
             @if (auth()->id() === $post->user_id)
-                <button type="button" class="text-xs font-medium text-red-600 hover:text-red-700">
+                <button type="button"
+                        x-on:click="if (confirm('Delete this post?')) { $wire.deletePost() }"
+                        class="text-xs font-medium text-red-600 hover:text-red-700">
                     Delete
                 </button>
             @endif

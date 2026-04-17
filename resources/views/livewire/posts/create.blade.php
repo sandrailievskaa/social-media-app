@@ -40,6 +40,8 @@ new class extends Component
             return redirect()->back();
         }
 
+        session()->flash('toast', 'Post created.');
+
         return redirect()->route('feed.index');
     }
 };
@@ -47,6 +49,7 @@ new class extends Component
 ?>
 
 <x-app-layout>
+    @php($title = 'Create post')
     <div class="py-8">
         <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between">

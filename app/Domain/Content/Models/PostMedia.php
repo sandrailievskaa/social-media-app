@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 class PostMedia extends Model
 {
@@ -28,6 +29,17 @@ class PostMedia extends Model
     protected static function newFactory(): PostMediaFactory
     {
         return PostMediaFactory::new();
+    }
+
+    protected static function booted(): void
+    {
+        static::deleting(function (self $media): void {
+            if (str_starts_with($media->file_path, 'http://') || str_starts_with($media->file_path, 'https://')) {
+                return;
+            }
+
+            Storage::disk('public')->delete($media->file_path);
+        });
     }
 
     /**

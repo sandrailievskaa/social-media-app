@@ -32,6 +32,14 @@ class Post extends Model
         return PostFactory::new();
     }
 
+    protected static function booted(): void
+    {
+        static::deleting(function (self $post): void {
+            $post->comments()->get()->each->delete();
+            $post->reactions()->delete();
+        });
+    }
+
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -39,7 +47,7 @@ class Post extends Model
 
     public function media(): HasMany
     {
-        return $this->hasMany(PostMedia::class);
+        return $this->hasMany(PostMedia::class)->orderBy('display_order');
     }
 
     public function comments(): HasMany

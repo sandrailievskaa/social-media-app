@@ -33,6 +33,19 @@ class PostCard extends Component
         $this->hydrateReactionState();
     }
 
+    public function deletePost(): void
+    {
+        if (auth()->id() !== $this->post->user_id) {
+            abort(403);
+        }
+
+        $this->post->delete();
+
+        $this->dispatch('toast', message: 'Post deleted.');
+
+        $this->redirectRoute('feed.index');
+    }
+
     private function hydrateReactionState(): void
     {
         $this->reactionCounts = $this->post->reactions()

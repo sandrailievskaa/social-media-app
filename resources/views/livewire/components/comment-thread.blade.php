@@ -26,7 +26,7 @@
 
 <div class="space-y-6">
     <div class="space-y-4">
-        @foreach ($topLevel as $comment)
+        @forelse ($topLevel as $comment)
             @php($avatar = $comment->author?->profile?->avatar_path)
             <div class="rounded-lg border border-gray-200 bg-white p-4">
                 <div class="flex items-start justify-between gap-3">
@@ -94,7 +94,9 @@
                                     <button type="button" wire:click="startEdit('{{ $comment->id }}')" class="hover:text-gray-900">
                                         Edit
                                     </button>
-                                    <button type="button" wire:click="deleteComment('{{ $comment->id }}')" class="text-red-600 hover:text-red-700">
+                                    <button type="button"
+                                            x-on:click="if (confirm('Delete this comment?')) { $wire.deleteComment('{{ $comment->id }}') }"
+                                            class="text-red-600 hover:text-red-700">
                                         Delete
                                     </button>
                                 @endif
@@ -139,7 +141,9 @@
 
                                                     @if ($reply->user_id === auth()->id())
                                                         <div class="mt-2 flex items-center gap-3 text-xs font-medium text-gray-600">
-                                                            <button type="button" wire:click="deleteComment('{{ $reply->id }}')" class="text-red-600 hover:text-red-700">
+                                                            <button type="button"
+                                                                    x-on:click="if (confirm('Delete this comment?')) { $wire.deleteComment('{{ $reply->id }}') }"
+                                                                    class="text-red-600 hover:text-red-700">
                                                                 Delete
                                                             </button>
                                                         </div>
@@ -178,7 +182,11 @@
                     </div>
                 </div>
             </div>
-        @endforeach
+        @empty
+            <div class="rounded-lg border border-dashed border-gray-300 bg-white p-6 text-center text-sm text-gray-600">
+                Be the first to comment.
+            </div>
+        @endforelse
     </div>
 
     @if ($this->parentCommentId === null)

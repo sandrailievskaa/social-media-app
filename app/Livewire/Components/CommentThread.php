@@ -43,6 +43,8 @@ class CommentThread extends Component
         );
 
         $this->reset(['body', 'parentCommentId']);
+
+        $this->dispatch('toast', message: 'Comment added.');
     }
 
     public function startReply(string $commentId): void

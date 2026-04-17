@@ -32,6 +32,14 @@ class Comment extends Model
         return CommentFactory::new();
     }
 
+    protected static function booted(): void
+    {
+        static::deleting(function (self $comment): void {
+            $comment->replies()->get()->each->delete();
+            $comment->reactions()->delete();
+        });
+    }
+
     public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);

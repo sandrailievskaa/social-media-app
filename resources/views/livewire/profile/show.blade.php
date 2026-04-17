@@ -39,6 +39,13 @@ new class extends Component
 ?>
 
 <x-app-layout>
+    @php($title = $profileUser->name)
+    @php($avatarMeta = $profileUser->profile?->avatar_path ?: 'https://i.pravatar.cc/150?u='.urlencode($profileUser->email))
+    @push('head')
+        <meta property="og:title" content="{{ $profileUser->name }}" />
+        <meta property="og:image" content="{{ $avatarMeta }}" />
+    @endpush
+
     <div class="pb-12">
         <div class="bg-gray-200">
             @php($cover = $profileUser->profile?->cover_path)
@@ -107,9 +114,14 @@ new class extends Component
             </div>
 
             <div class="mt-8 space-y-6">
-                @foreach ($profileUser->posts()->latest()->with(['author.profile', 'media'])->get() as $post)
+                @php($posts = $profileUser->posts()->latest()->with(['author.profile', 'media'])->get())
+                @forelse ($posts as $post)
                     <livewire:components.post-card :post="$post" :key="$post->id" />
-                @endforeach
+                @empty
+                    <div class="rounded-lg border border-dashed border-gray-300 bg-white p-8 text-center text-sm text-gray-600">
+                        No posts yet.
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>
