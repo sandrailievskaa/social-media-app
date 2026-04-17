@@ -1,12 +1,12 @@
 <?php
 
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\FeedController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReactionController;
 use Illuminate\Support\Facades\Route;
+use Livewire\Volt\Volt;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,9 +17,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/feed', [FeedController::class, 'index'])->name('feed.index');
+    Volt::route('/feed', 'feed.index')->name('feed.index');
 
-    Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+    Volt::route('/posts/create', 'posts.create')->name('posts.create');
     Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
     Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
